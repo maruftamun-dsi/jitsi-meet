@@ -1,20 +1,12 @@
 /* eslint-disable import/order */
 import React, { useCallback } from 'react';
+import { WithTranslation } from 'react-i18next';
 
-// @ts-ignore
 import { useSelector } from 'react-redux';
-
-// @ts-ignore
 import { isMobileBrowser } from '../../../base/environment/utils';
-
-// @ts-ignore
-import { translate } from '../../../base/i18n';
-
-// @ts-ignore
-import { IconArrowUp } from '../../../base/icons';
-
-// @ts-ignore
-import { connect } from '../../../base/redux';
+import { translate } from '../../../base/i18n/functions';
+import { IconArrowUp } from '../../../base/icons/svg/index';
+import { connect } from '../../../base/redux/functions';
 
 // @ts-ignore
 import ToolboxButtonWithIconPopup from '../../../base/toolbox/components/web/ToolboxButtonWithIconPopup';
@@ -28,7 +20,7 @@ import RaiseHandButton from './RaiseHandButton';
 import ReactionEmoji from './ReactionEmoji';
 import ReactionsMenu from './ReactionsMenu';
 
-type Props = {
+interface Props extends WithTranslation {
 
     /**
      * Whether or not reactions are enabled.
@@ -69,13 +61,8 @@ type Props = {
     /**
      * The array of reactions to be displayed.
      */
-    reactionsQueue: Array<ReactionEmojiProps>,
-
-    /**
-     * Used for translation.
-     */
-    t: Function
-};
+    reactionsQueue: Array<ReactionEmojiProps>
+}
 
 /**
  * Button used for the reactions menu.

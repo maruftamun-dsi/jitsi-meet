@@ -1,11 +1,9 @@
 /* eslint-disable import/order */
-// @ts-ignore
 import { batch } from 'react-redux';
 
 // @ts-ignore
 import { createReactionSoundsDisabledEvent, sendAnalytics } from '../analytics';
 
-// @ts-ignore
 import { IStore } from '../app/types';
 import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../base/app/actionTypes';
 import {
@@ -19,12 +17,9 @@ import {
     getParticipantById,
     getParticipantCount,
     isLocalParticipantModerator
+} from '../base/participants/functions';
 
-    // @ts-ignore
-} from '../base/participants';
-
-// @ts-ignore
-import { MiddlewareRegistry } from '../base/redux';
+import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import { SETTINGS_UPDATED } from '../base/settings/actionTypes';
 
 // @ts-ignore
@@ -267,11 +262,11 @@ function _onMuteReactionsCommand(attributes: MuteCommandAttributes = {}, id: str
 
     // The Command(s) API will send us our own commands and we don't want
     // to act upon them.
-    if (participantSendingCommand.local) {
+    if (participantSendingCommand?.local) {
         return;
     }
 
-    if (participantSendingCommand.role !== 'moderator') {
+    if (participantSendingCommand?.role !== 'moderator') {
         logger.warn('Received mute-reactions command not from moderator');
 
         return;

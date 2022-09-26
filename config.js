@@ -1,9 +1,26 @@
-/* eslint-disable comma-dangle, no-unused-vars, no-var */
+/* eslint-disable comma-dangle, no-unused-vars, no-var, prefer-template, vars-on-top */
 
 /*
  * NOTE: If you add a new option please remember to document it here:
  * https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-configuration
  */
+
+var subdir = '<!--# echo var="subdir" default="" -->';
+var subdomain = '<!--# echo var="subdomain" default="" -->';
+
+if (subdomain) {
+    subdomain = subdomain.substr(0, subdomain.length - 1).split('.')
+        .join('_')
+        .toLowerCase() + '.';
+}
+
+// In case of no ssi provided by the webserver, use empty strings
+if (subdir.startsWith('<!--')) {
+    subdir = '';
+}
+if (subdomain.startsWith('<!--')) {
+    subdomain = '';
+}
 
 var config = {
     // Connection
@@ -23,14 +40,14 @@ var config = {
         // focus: 'focus.jitsi-meet.example.com',
 
         // XMPP MUC domain. FIXME: use XEP-0030 to discover it.
-        muc: 'conference.jitsi-meet.example.com',
+        muc: 'conference.' + subdomain + 'jitsi-meet.example.com',
     },
 
     // BOSH URL. FIXME: use XEP-0156 to discover it.
-    bosh: '//jitsi-meet.example.com/http-bind',
+    bosh: '//jitsi-meet.example.com/' + subdir + 'http-bind',
 
     // Websocket URL
-    // websocket: 'wss://jitsi-meet.example.com/xmpp-websocket',
+    // websocket: 'wss://jitsi-meet.example.com/' + subdir + 'xmpp-websocket',
 
     // The real JID of focus participant - can be overridden here
     // Do not change username - FIXME: Make focus username configurable
@@ -310,9 +327,6 @@ var config = {
     // DEPRECATED. Use recordingService.sharingEnabled instead.
     // fileRecordingsServiceSharingEnabled: false,
 
-    // Whether to enable live streaming or not.
-    // liveStreamingEnabled: false,
-
     // Local recording configuration.
     // localRecording: {
     //     // Whether to disable local recording or not.
@@ -324,6 +338,23 @@ var config = {
     //     // Whether to disable the self recording feature (only local participant streams).
     //     disableSelfRecording: false,
     // },
+
+    // Customize the Live Streaming dialog. Can be modified for a non-YouTube provider.
+    // liveStreaming: {
+    //    // Whether to enable live streaming or not.
+    //    enabled: false,
+    //    // Terms link
+    //    termsLink: 'https://www.youtube.com/t/terms',
+    //    // Data privacy link
+    //    dataPrivacyLink: 'https://policies.google.com/privacy',
+    //    // RegExp string that validates the stream key input field
+    //    validatorRegExpString: '^(?:[a-zA-Z0-9]{4}(?:-(?!$)|$)){4}',
+    //    // Documentation reference for the live streaming feature.
+    //    helpLink: 'https://jitsi.org/live'
+    // },
+
+    // DEPRECATED. Use liveStreaming.enabled instead.
+    // liveStreamingEnabled: false,
 
     // DEPRECATED. Use transcription.enabled instead.
     // transcribingEnabled: false,
@@ -684,6 +715,7 @@ var config = {
     //    'linktosalesforce',
     //    'livestreaming',
     //    'microphone',
+    //    'noisesuppression',
     //    'participants-pane',
     //    'profile',
     //    'raisehand',
@@ -748,6 +780,7 @@ var config = {
     //     'microphone',
     //     'mute-everyone',
     //     'mute-video-everyone',
+    //     'noisesuppression',
     //     'participants-pane',
     //     'profile',
     //     {
@@ -1356,6 +1389,7 @@ var config = {
     //     'notify.leftTwoMembers', // show when two participants left simultaneously
     //     'notify.leftThreePlusMembers', // show when more than 2 participants left simultaneously
     //     'notify.grantedTo', // shown when moderator rights were granted to a participant
+    //     'notify.hostAskedUnmute', // shown to participant when host asks them to unmute
     //     'notify.invitedOneMember', // shown when 1 participant has been invited
     //     'notify.invitedThreePlusMembers', // shown when 3+ participants have been invited
     //     'notify.invitedTwoMembers', // shown when 2 participants have been invited
@@ -1376,7 +1410,7 @@ var config = {
     //     'notify.raisedHand', // shown when a partcipant used raise hand,
     //     'notify.startSilentTitle', // shown when user joined with no audio
     //     'notify.unmute', // shown to moderator when user raises hand during AV moderation
-    //     'notify.hostAskedUnmute', // shown to participant when host asks them to unmute
+    //     'notify.videoMutedRemotelyTitle', // shown when user's video is muted by a remote party,
     //     'prejoin.errorDialOut',
     //     'prejoin.errorDialOutDisconnected',
     //     'prejoin.errorDialOutFailed',

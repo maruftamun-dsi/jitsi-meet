@@ -2,6 +2,7 @@
 import { withStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import React, { Component } from 'react';
+import { WithTranslation } from 'react-i18next';
 import { bindActionCreators } from 'redux';
 
 import {
@@ -13,17 +14,12 @@ import {
 } from '../../../analytics';
 import { IStore } from '../../../app/types';
 
-// @ts-ignore
 import { isMobileBrowser } from '../../../base/environment/utils';
+import { getLocalParticipant, hasRaisedHand } from '../../../base/participants/functions';
+import { raiseHand } from '../../../base/participants/actions';
+import { translate } from '../../../base/i18n/functions';
 
-// @ts-ignore
-import { translate } from '../../../base/i18n';
-
-// @ts-ignore
-import { getLocalParticipant, hasRaisedHand, raiseHand } from '../../../base/participants';
-
-// @ts-ignore
-import { connect } from '../../../base/redux';
+import { connect } from '../../../base/redux/functions';
 import { Theme } from '../../../base/ui/types';
 
 // @ts-ignore
@@ -45,7 +41,7 @@ interface Classes {
     overflow: string
 }
 
-type Props = {
+interface Props extends WithTranslation {
 
     /**
      * Docks the toolbox.
@@ -90,13 +86,8 @@ type Props = {
     /**
      * Whether or not it's displayed in the overflow menu.
      */
-    overflowMenu: boolean,
-
-    /**
-     * Used for translation.
-     */
-    t: Function
-};
+    overflowMenu: boolean
+}
 
 const styles = (theme: Theme) => {
     return {

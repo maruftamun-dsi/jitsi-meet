@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 
 import {
@@ -12,7 +10,6 @@ import {
 } from '../../../base/dialog';
 import { translate } from '../../../base/i18n';
 import {
-    Button,
     Container,
     Image,
     LoadingIndicator,
@@ -21,6 +18,8 @@ import {
 } from '../../../base/react';
 import { connect } from '../../../base/redux';
 import { StyleType } from '../../../base/styles';
+import { Button } from '../../../base/ui';
+import { BUTTON_TYPES } from '../../../base/ui/constants';
 import { authorizeDropbox, updateDropboxToken } from '../../../dropbox';
 import { isVpaasMeeting } from '../../../jaas/functions';
 import { RECORDING_TYPES } from '../../constants';
@@ -187,6 +186,19 @@ class StartRecordingDialogContent extends Component<Props> {
             && !this._shouldRenderIntegrationsContent()
             && !this._shouldRenderFileSharingContent()) {
             this._onLocalRecordingSwitchChange();
+        }
+    }
+
+    /**
+     * Implements {@code Component#componentDidUpdate}.
+     *
+     * @inheritdoc
+     */
+    componentDidUpdate(prevProps) {
+        // Auto sign-out when the use chooses another recording service.
+        if (prevProps.selectedRecordingService === RECORDING_TYPES.DROPBOX
+                && this.props.selectedRecordingService !== RECORDING_TYPES.DROPBOX && this.props.isTokenValid) {
+            this._onSignOut();
         }
     }
 
@@ -435,10 +447,10 @@ class StartRecordingDialogContent extends Component<Props> {
             switchContent = (
                 <Container className = 'recording-switch'>
                     <Button
-                        onValueChange = { this._onSignOut }
-                        style = { styles.signButton }>
-                        { t('recording.signOut') }
-                    </Button>
+                        label = { t('recording.signOut') }
+                        onClick = { this._onSignOut }
+                        onPress = { this._onSignOut }
+                        type = { BUTTON_TYPES.SECONDARY } />
                 </Container>
             );
 
@@ -446,10 +458,10 @@ class StartRecordingDialogContent extends Component<Props> {
             switchContent = (
                 <Container className = 'recording-switch'>
                     <Button
-                        onValueChange = { this._onSignIn }
-                        style = { styles.signButton }>
-                        { t('recording.signIn') }
-                    </Button>
+                        label = { t('recording.signIn') }
+                        onClick = { this._onSignIn }
+                        onPress = { this._onSignIn }
+                        type = { BUTTON_TYPES.PRIMARY } />
                 </Container>
             );
         }
@@ -509,7 +521,6 @@ class StartRecordingDialogContent extends Component<Props> {
      */
     _onRecordingServiceSwitchChange() {
         const {
-            isTokenValid,
             onChange,
             selectedRecordingService
         } = this.props;
@@ -520,10 +531,6 @@ class StartRecordingDialogContent extends Component<Props> {
         }
 
         onChange(RECORDING_TYPES.JITSI_REC_SERVICE);
-
-        if (isTokenValid) {
-            this._onSignOut();
-        }
     }
 
     /**
@@ -763,7 +770,7 @@ function _mapStateToProps(state) {
     return {
         ..._abstractMapStateToProps(state),
         isVpaas: isVpaasMeeting(state),
-        _hideStorageWarning: state['features/base/config'].recording?.hideStorageWarning,
+        _hideStorageWarning: state['features/base/config'].recordingService?.hideStorageWarning,
         _localRecordingEnabled: !state['features/base/config'].localRecording?.disable,
         _localRecordingSelfEnabled: !state['features/base/config'].localRecording?.disableSelfRecording,
         _localRecordingNoNotification: !state['features/base/config'].localRecording?.notifyAllParticipants,

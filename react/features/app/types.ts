@@ -15,6 +15,27 @@ import { ILibJitsiMeetState } from '../base/lib-jitsi-meet/reducer';
 import { ILoggingState } from '../base/logging/reducer';
 import { IMediaState } from '../base/media/reducer';
 import { INetInfoState } from '../base/net-info/reducer';
+import { IParticipantsState } from '../base/participants/reducer';
+import { IResponsiveUIState } from '../base/responsive-ui/reducer';
+import { ISettingsState } from '../base/settings/reducer';
+import { ISoundsState } from '../base/sounds/reducer';
+import { ITestingState } from '../base/testing/reducer';
+import { INoSrcDataState, ITracksState } from '../base/tracks/reducer';
+import { IUserInteractionState } from '../base/user-interaction/reducer';
+import { IBreakoutRoomsState } from '../breakout-rooms/reducer';
+import { ICalendarSyncState } from '../calendar-sync/reducer';
+import { IChatState } from '../chat/reducer';
+import { IDeepLinkingState } from '../deep-linking/reducer';
+import { IDropboxState } from '../dropbox/reducer';
+import { IDynamicBrandingState } from '../dynamic-branding/reducer';
+import { IE2EEState } from '../e2ee/reducer';
+import { IEtherpadState } from '../etherpad/reducer';
+import { IFaceLandmarksState } from '../face-landmarks/reducer';
+import { IFeedbackState } from '../feedback/reducer';
+import { IFilmstripState } from '../filmstrip/reducer';
+import { IFollowMeState } from '../follow-me/reducer';
+import { IGifsState } from '../gifs/reducer';
+import { IGoogleApiState } from '../google-api/reducer';
 import { INoiseSuppressionState } from '../noise-suppression/reducer';
 
 export interface IStore {
@@ -41,5 +62,27 @@ export interface IState {
     'features/base/logging': ILoggingState,
     'features/base/media': IMediaState,
     'features/base/net-info': INetInfoState,
-    'features/noise-suppression': INoiseSuppressionState
+    'features/base/no-src-data': INoSrcDataState,
+    'features/base/participants': IParticipantsState,
+    'features/base/responsive-ui': IResponsiveUIState,
+    'features/base/settings': ISettingsState,
+    'features/base/sounds': ISoundsState,
+    'features/base/tracks': ITracksState,
+    'features/base/user-interaction': IUserInteractionState,
+    'features/breakout-rooms': IBreakoutRoomsState,
+    'features/calendar-sync': ICalendarSyncState,
+    'features/chat': IChatState,
+    'features/deep-linking': IDeepLinkingState,
+    'features/dropbox': IDropboxState,
+    'features/dynamic-branding': IDynamicBrandingState,
+    'features/e2ee': IE2EEState,
+    'features/etherpad': IEtherpadState,
+    'features/face-landmarks': IFaceLandmarksState,
+    'features/feedback': IFeedbackState,
+    'features/filmstrip': IFilmstripState,
+    'features/follow-me': IFollowMeState,
+    'features/gifs': IGifsState,
+    'features/google-api': IGoogleApiState,
+    'features/noise-suppression': INoiseSuppressionState,
+    'features/testing': ITestingState
 }
