@@ -19,7 +19,7 @@ import {
 import { getInviteURL } from '../../base/connection';
 import {
     MEDIA_TYPE,
-    isVideoMutedByAudioOnly,
+    getStartWithVideoMuted,
     setAudioMuted
 } from '../../base/media';
 import { MiddlewareRegistry } from '../../base/redux';
@@ -263,7 +263,7 @@ function _conferenceWillJoin({ dispatch, getState }, next, action) {
     const { callHandle, callUUID } = state['features/base/config'];
     const url = getInviteURL(state);
     const handle = callHandle || url.toString();
-    const hasVideo = !isVideoMutedByAudioOnly(state);
+    const hasVideo = !getStartWithVideoMuted(state);
 
     // If we already have a callUUID set, don't start a new call.
     if (conference.callUUID) {
@@ -340,7 +340,7 @@ function _handleConnectionServiceFailure(state: Object) {
         if (AudioMode.setUseConnectionService) {
             AudioMode.setUseConnectionService(false);
 
-            const hasVideo = !isVideoMutedByAudioOnly(state);
+            const hasVideo = !getStartWithVideoMuted(state);
 
             // Set the desired audio mode, since we just reset the whole thing.
             AudioMode.setMode(hasVideo ? AudioMode.VIDEO_CALL : AudioMode.AUDIO_CALL);
@@ -485,7 +485,7 @@ function _syncTrackState({ getState }, next, action) {
         case 'video': {
             CallIntegration.updateCall(
                 conference.callUUID,
-                { hasVideo: !isVideoMutedByAudioOnly(state) });
+                { hasVideo: !getStartWithVideoMuted(state) });
             break;
         }
 
