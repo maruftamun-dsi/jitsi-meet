@@ -148,7 +148,7 @@ export default class AbstractPageReloadOverlay<P: Props>
          *
          * @type {number}
          */
-        const timeoutSeconds = 10 + randomInt(0, 20);
+        const timeoutSeconds = 30;
 
         let message, title;
 
